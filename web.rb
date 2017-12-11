@@ -31,6 +31,27 @@ post '/ephemeral_keys' do
   key.to_json
 end
 
+post '/user' do
+  # Get the credit card details submitted by the form
+  token = params[:stripeToken]
+
+  begin
+    # Create a Customer
+    customer = Stripe::Customer.create(
+      :source => token,
+      :email => params[:email],
+      :metadata => { :name => params[:name] },
+    )
+  rescue => e
+    status 402
+    return "Error creating customer"
+  end
+
+  status 200
+  return customer.id
+
+end
+
 post '/charge' do
   authenticate!
   # Get the credit card details submitted
