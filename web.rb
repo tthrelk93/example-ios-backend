@@ -58,22 +58,23 @@ post '/charge' do
   payload = params
   #customer = Stripe::Customer.retrieve(payload[:customerID])
   
-  if request.content_type.include? 'application/json' and params.empty? 
-    payload = indifferent_params(JSON.parse(request.body.read))
-  end
+  #if request.content_type.include? 'application/json' and params.empty? 
+   # payload = indifferent_params(JSON.parse(request.body.read))
+ # end
 
-  source = payload[:source]
-  customer = payload[:customer_id] || @customer.id
+  #source = payload[:source]
+  #customer = payload[:customer_id] || @customer.id
   # Create the charge on Stripe's servers - this will charge the user's card
   begin
-    charge = Stripe::Charge.create(
-      :amount => payload[:amount], # this number should be in cents
-      :currency => "usd",
-      :customer => customer,
-      :source => source,
-      :description => "Example Charge",
-      :shipping => payload[:shipping],
-    )
+    token = params[:stripeToken]
+
+# Charge the user's card:
+charge = Stripe::Charge.create(
+  :amount => 1000,
+  :currency => "usd",
+  :description => "Example charge",
+  :source => token,
+)
   rescue Stripe::StripeError => e
     status 402
     return "Error creating charge: #{e.message}"
