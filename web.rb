@@ -16,7 +16,7 @@ get '/' do
 end
 
 post '/ephemeral_keys' do
-  authenticate!
+  #authenticate!
   begin
     key = Stripe::EphemeralKey.create(
       {customer: @customer.id},
@@ -66,7 +66,7 @@ post '/charge' do
   #customer = payload[:customer_id] || @customer.id
   # Create the charge on Stripe's servers - this will charge the user's card
   begin
-    token = params[:stripeToken]
+    token = params[:customer_id]
 
 # Charge the user's card:
 charge = Stripe::Charge.create(
