@@ -73,7 +73,8 @@ charge = Stripe::Charge.create(
   :amount => 1000,
   :currency => "usd",
   :description => "Example charge",
-  :source => token,
+  :customer => token,
+  #:source => token,
 )
   rescue Stripe::StripeError => e
     status 402
