@@ -67,7 +67,7 @@ post '/charge' do
   # Create the charge on Stripe's servers - this will charge the user's card
   begin
     
-    token = params[:customer_id]
+    token = "cus_BvnKXmTyIZtWuO" #params[:customer_id]
     customer = Stripe::Customer.retrieve(token)
     source = customer.sources.retrieve({CARD_ID})
 
