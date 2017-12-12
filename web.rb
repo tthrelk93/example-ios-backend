@@ -66,7 +66,10 @@ post '/charge' do
   #customer = payload[:customer_id] || @customer.id
   # Create the charge on Stripe's servers - this will charge the user's card
   begin
+    
     token = params[:customer_id]
+    customer = Stripe::Customer.retrieve(token)
+    source = customer.sources.retrieve({CARD_ID})
 
 # Charge the user's card:
 charge = Stripe::Charge.create(
@@ -74,7 +77,7 @@ charge = Stripe::Charge.create(
   :currency => "usd",
   :description => "Example charge",
   :customer => token,
-  #:source => token,
+  :card => source,
 )
   rescue Stripe::StripeError => e
     status 402
@@ -85,25 +88,25 @@ charge = Stripe::Charge.create(
   return "Charge successfully created"
 end
 
-def authenticate!
+#def authenticate!
   # This code simulates "loading the Stripe customer for your current session".
   # Your own logic will likely look very different.
-  return @customer if @customer
-  if session.has_key?(:customer_id)
-    customer_id = session[:customer_id]
-    begin
-      @customer = Stripe::Customer.retrieve(customer_id)
-    rescue Stripe::InvalidRequestError
-    end
-  else
-    begin
-      @customer = Stripe::Customer.create(:description => "mobile SDK example customer")
-    rescue Stripe::InvalidRequestError
-    end
-    session[:customer_id] = @customer.id
-  end
-  @customer
-end
+ # return @customer if @customer
+  #if session.has_key?(:customer_id)
+   # customer_id = session[:customer_id]
+    #begin
+     # @customer = Stripe::Customer.retrieve(customer_id)
+    #rescue Stripe::InvalidRequestError
+    #end
+  #else
+   # begin
+    #  @customer = Stripe::Customer.create(:description => "mobile SDK example customer")
+    #rescue Stripe::InvalidRequestError
+    #end
+    #session[:customer_id] = @customer.id
+  #end
+  #@customer
+#end
 
 # This endpoint is used by the Obj-C and Android example apps to create a charge.
 post '/create_charge' do
