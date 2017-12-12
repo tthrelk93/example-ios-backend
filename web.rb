@@ -53,7 +53,7 @@ post '/user' do
 end
 
 post '/charge' do
-  authenticate!
+  #authenticate!
   # Get the credit card details submitted
   payload = params
   #customer = Stripe::Customer.retrieve(payload[:customerID])
