@@ -42,8 +42,8 @@ post '/user' do
       :email => params[:email],
       :metadata => { :name => params[:name] },
     )
-    @id = customer.id
-    render json: @id
+    id = customer.id
+    render json: id
   rescue => e
     status 402
     return "Error creating customer"
