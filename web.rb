@@ -70,15 +70,15 @@ post '/charge' do
   # Create the charge on Stripe's servers - this will charge the user's card
   begin
     
-    token = "cus_BvnKXmTyIZtWuO" #params[:customer_id]
+    token = params[:customer_id]
     customer = Stripe::Customer.retrieve(token)
     source = customer.sources.retrieve({CARD_ID})
 
 # Charge the user's card:
 charge = Stripe::Charge.create(
-  :amount => 1000,
+  :amount => params[:amount],
   :currency => "usd",
-  :description => "Example charge",
+  :description => "Example chargeeee",
   :customer => token,
   :card => source,
 )
@@ -114,11 +114,14 @@ end
 # This endpoint is used by the Obj-C and Android example apps to create a charge.
 post '/create_charge' do
   # Create the charge on Stripe's servers
+  token = params[:customer_id]
+    customer = Stripe::Customer.retrieve(token)
+    source = customer.sources.retrieve({CARD_ID})
   begin
     charge = Stripe::Charge.create(
       :amount => params[:amount], # this number should be in cents
       :currency => "usd",
-      :source => params[:source],
+      :source => source,
       :description => "Example Charge"
     )
   rescue Stripe::StripeError => e
@@ -153,7 +156,7 @@ post '/stripe-webhook' do
         :currency => source.currency,
         :source => source.id,
         :customer => source.metadata["customer"],
-        :description => "Example Charge"
+        :description => "Example Chargessss"
       )
     rescue Stripe::StripeError => e
       p "Error creating charge: #{e.message}"
