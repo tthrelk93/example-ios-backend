@@ -3,6 +3,9 @@ require 'stripe'
 require 'dotenv'
 require 'json'
 require 'encrypted_cookie'
+require 'net/http'
+require 'uri'
+
 
 Dotenv.load
 Stripe.api_key = ENV['STRIPE_TEST_SECRET_KEY']
@@ -30,6 +33,32 @@ post '/ephemeral_keys' do
   status 200
   key.to_json
 end
+
+post '/completeStripeConnect' do 
+
+  begin
+     authCode = params[:authCode]
+     uri = URI.parse("https://connect.stripe.com/oauth/token")
+     request = Net::HTTP::Post.new(uri)
+     request.set_form_data(
+       "client_secret" => "sk_test_BQokikJOvBiI2HlWgH4olfQ2",
+       "code" => "{authCode}",
+       "grant_type" => "authorization_code",
+     )
+
+     req_options = {
+       use_ssl: uri.scheme == "https",
+     }
+    
+     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http| http.request(request)
+       
+      custID = response.stripe_user_id
+       return custID
+     
+end
+
+# response.code
+# response.body
 
 post '/user' do
   # Get the credit card details submitted by the form
