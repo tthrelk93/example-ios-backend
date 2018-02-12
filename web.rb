@@ -38,21 +38,31 @@ post '/completeStripeConnect' do
 
   begin
      authCode = params[:authCode]
-     uri = URI.parse("https://connect.stripe.com/oauth/token")
-     request = Net::HTTP::Post.new(uri)
-     request.set_form_data(
+    header = {'Content-Type': 'text/json'}
+    uri = URI.parse("https://connect.stripe.com/oauth/token")
+    
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri, header)
+    #request.body = user.to_json
+    request.set_form_data(
        "client_secret" => "#{sk_test_BQokikJOvBiI2HlWgH4olfQ2}",
        "code" => "#{authCode}",
        "grant_type" => "authorization_code",
      )
 
-     req_options = {
-       use_ssl: uri.scheme == "https",
-     }
+    # Send the request
+    response = http.request(request)
     
-     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http| http.request(request)
+     #request = Net::HTTP::Post.new(uri)
+     
+
+    # req_options = {
+     #  use_ssl: uri.scheme == "https",
+     #}
+    
+     
        
-      custID = response.stripe_user_id
+      custID = response.body.stripe_user_id
        return custID
      
 end
