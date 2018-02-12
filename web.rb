@@ -41,8 +41,8 @@ post '/completeStripeConnect' do
      uri = URI.parse("https://connect.stripe.com/oauth/token")
      request = Net::HTTP::Post.new(uri)
      request.set_form_data(
-       "client_secret" => "sk_test_BQokikJOvBiI2HlWgH4olfQ2",
-       "code" => "{authCode}",
+       "client_secret" => "#{sk_test_BQokikJOvBiI2HlWgH4olfQ2}",
+       "code" => "#{authCode}",
        "grant_type" => "authorization_code",
      )
 
