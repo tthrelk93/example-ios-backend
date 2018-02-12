@@ -62,7 +62,7 @@ post '/completeStripeConnect' do
     
      
        
-      custID = response.body.stripe_user_id
+      custID = response.body
        return custID
      
 end
