@@ -64,7 +64,7 @@ post '/completeStripeConnect' do
        
       custID = response.body
        return custID
-     
+  end
 end
 
 # response.code
