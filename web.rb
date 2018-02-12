@@ -43,12 +43,13 @@ post '/completeStripeConnect' do
     
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, header)
-    #request.body = user.to_json
+    request.body = user.to_json
+   
     request.set_form_data(
-       "client_secret" => "#{sk_test_BQokikJOvBiI2HlWgH4olfQ2}",
-       "code" => "#{authCode}",
-       "grant_type" => "authorization_code",
-     )
+       {"client_secret" => sk_test_BQokikJOvBiI2HlWgH4olfQ2,
+       "code" => authCode,
+       "grant_type" => "authorization_code"}, ';')
+     
 
     # Send the request
     response = http.request(request)
@@ -62,7 +63,7 @@ post '/completeStripeConnect' do
     
      
        
-      custID = response.body
+      custID = response
        return custID
   end
 end
