@@ -57,6 +57,7 @@ post '/completeStripeConnect' do
     
     header = 
        {"client_secret" => sk_test_BQokikJOvBiI2HlWgH4olfQ2,
+         "client_id" => ca_B4F4BbbvDs0jH5cSZpYnkB9yLpCsdQVM,
        "code" => authCode,
        "grant_type" => "authorization_code"}
     http = Net::HTTP.new(uri)
