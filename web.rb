@@ -41,9 +41,9 @@ post '/completeStripeConnect' do
     
      authCode = params[:authCode]
     
-    uri = URI.parse("https://connect.stripe.com/")
+    uri = URI.parse("https://connect.stripe.com/oauth/token")
     
-    header = {'Content-Type': 'oauth/token'}
+   ## header = {'Content-Type': ''}
     cust = {cust: {
                   access_token: "{ACCESS_TOKEN}",
                   livemode: false,
@@ -55,15 +55,15 @@ post '/completeStripeConnect' do
       }
       }
     
-    
+    header = 
+       {"client_secret" => sk_test_BQokikJOvBiI2HlWgH4olfQ2,
+       "code" => authCode,
+       "grant_type" => "authorization_code"}
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, header)
     request.body = cust.to_json
    
-    request.set_form_data(
-       {"client_secret" => sk_test_BQokikJOvBiI2HlWgH4olfQ2,
-       "code" => authCode,
-       "grant_type" => "authorization_code"}, ';')
+    
      
 
     # Send the request
