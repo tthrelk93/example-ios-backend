@@ -111,7 +111,7 @@ post '/charge' do
     
     token = params[:customer_id]
     customer = Stripe::Customer.retrieve(token)
-    source = customer.sources.retrieve({CARD_ID})
+    source = customer.sources.retrieve(CARD_ID)
 
 # Charge the user's card:
 charge = Stripe::Charge.create(
@@ -155,7 +155,7 @@ post '/create_charge' do
   # Create the charge on Stripe's servers
   token = params[:customer_id]
     customer = Stripe::Customer.retrieve(token)
-    source = customer.sources.retrieve({CARD_ID})
+    source = customer.sources.retrieve(CARD_ID)
   begin
     charge = Stripe::Charge.create(
       :amount => params[:amount], # this number should be in cents
