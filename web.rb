@@ -59,9 +59,9 @@ post '/completeStripeConnect' do
        {"client_secret" => sk_test_BQokikJOvBiI2HlWgH4olfQ2,
        "code" => authCode,
        "grant_type" => "authorization_code"}
-    http = Net::HTTP.new(uri.host, uri.port)
+    http = Net::HTTP.new(uri)
     request = Net::HTTP::Post.new(uri.request_uri, header)
-    request.body = cust.to_json
+   #request.body = cust.to_json
    
     
      
@@ -69,17 +69,8 @@ post '/completeStripeConnect' do
     # Send the request
     response = http.request(request)
     
-     #request = Net::HTTP::Post.new(uri)
-     
-
-    # req_options = {
-     #  use_ssl: uri.scheme == "https",
-     #}
     
-     
-       
-      custID = response
-       return custID
+     return response
   end
 end
 
