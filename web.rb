@@ -82,7 +82,7 @@ post '/user' do
       :metadata => { :name => params[:name] },
     )
     id = customer.id
-    //render json: {:customer_id => id,}
+    #render json: {:customer_id => id,}
     return id
   rescue => e
     status 402
