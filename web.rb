@@ -37,13 +37,28 @@ end
 post '/completeStripeConnect' do 
 
   begin
+    
+    
      authCode = params[:authCode]
-    header = {'Content-Type': 'text/json'}
-    uri = URI.parse("https://connect.stripe.com/oauth/token")
+    
+    uri = URI.parse("https://connect.stripe.com/")
+    
+    header = {'Content-Type': 'oauth/token'}
+    cust = {cust: {
+                  access_token: "{ACCESS_TOKEN}",
+                  livemode: false,
+                  refresh_token: "{REFRESH_TOKEN}",
+                  token_type: "bearer",
+                  stripe_publishable_key: "{PUBLISHABLE_KEY}",
+                  stripe_user_id: "{ACCOUNT_ID}",
+                  scope: "express"
+      }
+      }
+    
     
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, header)
-    request.body = user.to_json
+    request.body = cust.to_json
    
     request.set_form_data(
        {"client_secret" => sk_test_BQokikJOvBiI2HlWgH4olfQ2,
