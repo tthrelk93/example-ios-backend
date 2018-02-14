@@ -40,16 +40,21 @@ post '/payout_student' do
     amount = params[:amount]
     
    
-    payout = Stripe::Payout.create({
-  :amount => amount,
-  :currency => "usd",
-  :stripe_account => accountID})
-    rescue => e
+    payout = Stripe::Payout.create(
+      :amount => amount,
+      :currency => "usd",
+      :stripe_account => accountID,)
+   return "payout successful"
+    
+    
+   
+  rescue => e
     status 402
     return "Error creating customer"
+ 
   end
   status 200
-  return "payout successful"
+  
   #return customer.id
   
 end
