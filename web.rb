@@ -34,46 +34,26 @@ post '/ephemeral_keys' do
   key.to_json
 end
 
-post '/completeStripeConnect' do 
-
+post 'payout_student' do
   begin
+    accountID = params[:accountID]
+    amount = params[:amount]
     
-    
-     authCode = params[:authCode]
-    
-    uri = URI.parse("https://connect.stripe.com/oauth/token")
-    
-   ## header = {'Content-Type': ''}
-    cust = {cust: {
-                  access_token: "{ACCESS_TOKEN}",
-                  livemode: false,
-                  refresh_token: "{REFRESH_TOKEN}",
-                  token_type: "bearer",
-                  stripe_publishable_key: "{PUBLISHABLE_KEY}",
-                  stripe_user_id: "{ACCOUNT_ID}",
-                  scope: "express"
-      }
-      }
-    
-    header = 
-       {"client_secret" => sk_test_BQokikJOvBiI2HlWgH4olfQ2,
-         "client_id" => ca_B4F4BbbvDs0jH5cSZpYnkB9yLpCsdQVM,
-       "code" => authCode,
-       "grant_type" => "authorization_code"}
-    http = Net::HTTP.new(uri)
-    request = Net::HTTP::Post.new(uri.request_uri, header)
-   #request.body = cust.to_json
    
-    
-     
-
-    # Send the request
-    response = http.request(request)
-    
-    
-     return response
+    payout = Stripe::Payout.create({
+  :amount => amount,
+  :currency => "usd",
+}, {:stripe_account => accountID})
+    rescue => e
+    status 402
+    return "Error creating customer"
   end
+  status 200
+  return "payout successful"
+  #return customer.id
+  
 end
+
 
 # response.code
 # response.body
