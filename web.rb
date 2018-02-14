@@ -43,7 +43,7 @@ post '/payout_student' do
     payout = Stripe::Payout.create({
   :amount => amount,
   :currency => "usd",
-}, {:stripe_account => accountID})
+  :stripe_account => accountID})
     rescue => e
     status 402
     return "Error creating customer"
