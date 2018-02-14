@@ -34,7 +34,7 @@ post '/ephemeral_keys' do
   key.to_json
 end
 
-post 'payout_student' do
+post '/payout_student' do
   begin
     accountID = params[:accountID]
     amount = params[:amount]
