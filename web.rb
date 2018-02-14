@@ -39,11 +39,13 @@ post '/payout_student' do
     accountID = params[:accountID]
     amount = params[:amount]
     
-   
-    payout = Stripe::Payout.create(
-      :amount => amount,
-      :currency => "usd",
-      :stripe_account => accountID,)
+  
+    payout = Stripe::Payout.create({
+  :amount => amount,
+  :currency => "usd",
+}, {:stripe_account => accountID})
+    
+  
    return "payout successful"
     
     
