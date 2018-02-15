@@ -39,20 +39,20 @@ post '/payout_student' do
     accountID = params[:accountID]
     amount = params[:amount]
     
-  
-    payout = Stripe::Payout.create({
+   transfer = Stripe::Transfer.create(
   :amount => amount,
   :currency => "usd",
-}, {:stripe_account => accountID})
-    
-  
-   return "payout successful"
+  :destination => accountID,
+  :transfer_group => "ORDER_95"
+)
+   
+   return "transfer successful"
     
     
    
   rescue => e
     status 402
-    return "Error creating customer"
+    return "Error creating customr"
  
   end
   status 200
