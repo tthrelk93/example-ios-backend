@@ -92,21 +92,10 @@ end
 post '/charge' do
   #authenticate!
   # Get the credit card details submitted
-  payload = params
-  #customer = Stripe::Customer.retrieve(payload[:customerID])
-  
-  #if request.content_type.include? 'application/json' and params.empty? 
-   # payload = indifferent_params(JSON.parse(request.body.read))
- # end
-
-  #source = payload[:source]
-  #customer = payload[:customer_id] || @customer.id
-  # Create the charge on Stripe's servers - this will charge the user's card
-  begin
-    
-    token = params[:customer_id]
+  token = params[:customer_id]
     customer = Stripe::Customer.retrieve(token)
     source = customer.sources.retrieve(CARD_ID)
+  begin
 
 # Charge the user's card:
 charge = Stripe::Charge.create(
