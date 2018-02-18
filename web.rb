@@ -94,18 +94,19 @@ post '/charge' do
   # Get the credit card details submitted
   token = params[:customer_id]
   
-   customer = Stripe::Customer.retrieve(token)
-   source = customer.sources.retrieve(CARD_ID)
+  customer = Stripe::Customer.retrieve(token)
+  source = customer.sources.retrieve(CARD_ID)
   begin
+    
 
 # Charge the user's card:
-charge = Stripe::Charge.create(
-  :amount => params[:amount],
-  :currency => "usd",
-  :description => "Example chargeeee",
-  :customer => token,
-  :card => source,
-)
+  charge = Stripe::Charge.create(
+    :amount => params[:amount],
+    :currency => "usd",
+    :description => "Example chargeeee",
+    :customer => token,
+    :card => source,
+  )
   rescue Stripe::StripeError => e
     status 402
     return "Error creating charge: #{e.message}"
