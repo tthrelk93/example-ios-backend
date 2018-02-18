@@ -97,7 +97,7 @@ post '/charge' do
     
     customer = Stripe::Customer.retrieve(token)
     
-    source = customer.sources.retrieve(CARD_ID)
+    #source = customer.sources.retrieve(CARD_ID)
     
 
 # Charge the user's card:
@@ -107,8 +107,8 @@ post '/charge' do
       :currency => "usd",
       :description => "Example chargeeee",
       :customer => token,
-      :card => source,
     )
+    #:card => source,
     
     rescue Stripe::StripeError => e
       status 500
