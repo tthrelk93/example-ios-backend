@@ -93,8 +93,9 @@ post '/charge' do
   #authenticate!
   # Get the credit card details submitted
   token = params[:customer_id]
-    customer = Stripe::Customer.retrieve(token)
-    source = customer.sources.retrieve(CARD_ID)
+  
+   customer = Stripe::Customer.retrieve(token)
+   source = customer.sources.retrieve(CARD_ID)
   begin
 
 # Charge the user's card:
