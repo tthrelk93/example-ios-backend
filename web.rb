@@ -89,6 +89,30 @@ post '/user' do
 
 end
 
+post'/chargeConnect' do
+   #authenticate!
+  # Get the credit card details submitted
+  acctID = params[:customer_id]
+  begin
+    
+    charge = Stripe::Charge.create({
+  :amount => params[:amount],
+  :currency => "usd",
+  :source => "tok_visa",
+}, :stripe_account => acctID)
+    
+     rescue Stripe::StripeError => e
+      status 500
+      return "Error creating charge: #{e.message}"
+    end
+  
+
+  status 200
+  return "Charge successfully created"
+end
+    
+  
+
 post '/charge' do
   #authenticate!
   # Get the credit card details submitted
