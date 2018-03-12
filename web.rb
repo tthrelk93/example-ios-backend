@@ -98,7 +98,6 @@ post'/chargeConnect' do
     charge = Stripe::Charge.create({
   :amount => params[:amount],
   :currency => "usd",
-  :source => "tok_visa",
 }, :stripe_account => acctID)
     
      rescue Stripe::StripeError => e
