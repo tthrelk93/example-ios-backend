@@ -93,11 +93,15 @@ post'/chargeConnect' do
    #authenticate!
   # Get the credit card details submitted
   acctID = params[:customer_id]
+  customer = Stripe::Customer.retrieve(token)
+  source = customer.sources.retrieve(CARD_ID)
+  
   begin
     
     charge = Stripe::Charge.create({
   :amount => params[:amount],
   :currency => "usd",
+  :source => source,
 }, :stripe_account => acctID)
     
      rescue Stripe::StripeError => e
